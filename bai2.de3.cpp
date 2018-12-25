@@ -27,6 +27,26 @@ int TimSTT(Ngaythang n){
 	return STT;
 }
 
+Ngaythang NgaytuSTT(int STT, int nam){
+	
+}
+
+Ngaythang CongNgaythang(Ngaythang n, int x){
+	//x<=356
+	int kq= x + TimSTT(n);
+	int nam=n.nam;
+	if(kq<=365)
+	 return NgaytuSTT(kq,nam);
+	else
+	 if( Ktranamnhuan(nam)==1 )
+	   if(kq==366)
+	     return NgaytuSTT(kq,nam);
+	   else
+	     return NgaytuSTT(kq-366,nam+1);
+	  else
+	    return NgaytuSTT(kq-365,nam+1);
+}
+
 int main()
 {
 	string st;
