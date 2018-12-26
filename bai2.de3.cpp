@@ -1,6 +1,7 @@
 #include"iostream"
 #include"stdlib.h"
 #include"string.h"
+#include"conio.h"
 using namespace std;
 typedef struct{
 	int ngay;
@@ -28,7 +29,20 @@ int TimSTT(Ngaythang n){
 }
 
 Ngaythang NgaytuSTT(int STT, int nam){
-	
+	Ngaythang ngaycantim;
+	int i=1;
+	while( STT > thang[i] ){
+		STT -= thang[i];
+		i++;
+		
+		if(Ktranamnhuan(nam) == 1 && i ==2)
+		thang[i]==29;
+	}
+	ngaycantim.ngay= STT;
+	ngaycantim.thang=i;
+	ngaycantim.nam=nam;
+	thang[2]=28;
+	return ngaycantim;
 }
 
 Ngaythang CongNgaythang(Ngaythang n, int x){
@@ -47,8 +61,28 @@ Ngaythang CongNgaythang(Ngaythang n, int x){
 	    return NgaytuSTT(kq-365,nam+1);
 }
 
+Ngaythang TruNgaythang(Ngaythang n, int x){
+	//x<=356
+	int kq,nam;
+	if (x < TimSTT(n))
+		 kq = TimSTT(n)-x;
+	else {
+		nam = n.nam-1; 
+		kq = TimSTT(n) + 365 - x;
+		if (Ktranamnhuan(n.nam)==1 && (n.thang>2 || (n.thang==2 && n.ngay==29)))
+			kq++;
+		}
+		cout << kq <<endl;
+	return NgaytuSTT(kq,nam);
+}
+void Inngay(Ngaythang n){
+	cout <<n.ngay << "/" << n.thang << "/" <<n.nam <<endl;
+}
 int main()
 {
+	Ngaythang n;
+	int a,b;
+	
 	string st;
 	cout<<"nhap du lieu: ";
 	getline(cin,st);
@@ -70,11 +104,23 @@ int main()
   cout<<"nam: "<<x.nam<<endl;
   
   if(Ktranamnhuan(x.nam)==1 )
-  cout<<"Nam nhuan";
+  cout<<"\nNam nhuan";
   else 
-  cout<<"Khong phai nam nhuan";
+  cout<<"\nKhong phai nam nhuan ";
   
-  cout<<"So thu tu trong nam:"<<TimSTT(x);
+  cout<<"\nSo thu tu trong nam:"<<TimSTT(x);
+ 	
+ 	cout<<"\nNhap so nguyen a:";
+ 	cin>>a;
+ 	cout<<"\nCong ngay thang: \n";
+ 	Inngay(CongNgaythang(n,a));
+ 		cout<<"\nNhap so nguyen b:";
+ 	cin>>b;
+ 	cout<<"\nTru ngay thang: \n";
+ 	Inngay(TruNgaythang(n,b));
+
+ 
+  getch();
 // Cach 2:
 //int day, month, year;
 //char c;
