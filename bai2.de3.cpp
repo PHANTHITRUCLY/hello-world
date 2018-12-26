@@ -28,28 +28,38 @@ int TimSTT(Ngaythang n){
 	return STT;
 }
 
-Ngaythang NgaytuSTT(int STT, int nam){
+Ngaythang NgaytuSTT(int STT, int nam){ // STT=81; nam =2018
 	Ngaythang ngaycantim;
-	int i=1;
-	while( STT > thang[i] ){
-		STT -= thang[i];
-		i++;
-		
-		if(Ktranamnhuan(nam) == 1 && i ==2)
+	int a=1;
+	
+	for(int i=1; i<12; i++){
+    	if( STT > thang[i]){ //81 >31// 50>28//
+    		
+		if(Ktranamnhuan(nam) == 1 && i ==2)  
 		thang[i]==29;
+		
+		STT -= thang[i]; // 81-31=50 //50-28 =22
+		
+		a=i+1; // a= 2 //a=3
+		
+    	}
+    	
+    	
 	}
 	ngaycantim.ngay= STT;
-	ngaycantim.thang=i;
+	ngaycantim.thang=a;
 	ngaycantim.nam=nam;
-	thang[2]=28;
+	
 	return ngaycantim;
 }
 
 Ngaythang CongNgaythang(Ngaythang n, int x){
 	//x<=356
-	int kq= x + TimSTT(n);
-	int nam=n.nam;
-	if(kq<=365)
+	int nam=n.nam; //2018
+	int kq= x + TimSTT(n); // x= 20 + 61 (02/03/2018) = kq = 81
+	cout<<"kq sau khi cong STT: "<<kq<<" / nam: "<<nam<<endl; // 81
+	
+	if(kq<=365) //81<365
 	 return NgaytuSTT(kq,nam);
 	else
 	 if( Ktranamnhuan(nam)==1 )
@@ -63,16 +73,22 @@ Ngaythang CongNgaythang(Ngaythang n, int x){
 
 Ngaythang TruNgaythang(Ngaythang n, int x){
 	//x<=356
+	
 	int kq,nam;
-	if (x < TimSTT(n))
-		 kq = TimSTT(n)-x;
+	if (x < TimSTT(n)){
+		 kq = TimSTT(n)-x; //61 - 20 = 41
+		 cout<<"kq sau khi tru STT th1: "<<kq<<" / nam: "<<n.nam<<endl;
+		 nam=n.nam; //2018
+		 }
 	else {
 		nam = n.nam-1; 
 		kq = TimSTT(n) + 365 - x;
+		cout<<"kq sau khi tru STT th2: "<<kq<<" / nam: "<<n.nam<<endl;
+		
 		if (Ktranamnhuan(n.nam)==1 && (n.thang>2 || (n.thang==2 && n.ngay==29)))
 			kq++;
 		}
-		cout << kq <<endl;
+		
 	return NgaytuSTT(kq,nam);
 }
 void Inngay(Ngaythang n){
@@ -80,11 +96,10 @@ void Inngay(Ngaythang n){
 }
 int main()
 {
-	Ngaythang n;
 	int a,b;
 	
 	string st;
-	cout<<"nhap du lieu: ";
+	cout<<"nhap du lieu: "; // 02/03/2018
 	getline(cin,st);
 	char t[4];
 	Ngaythang x;
@@ -106,18 +121,19 @@ int main()
   if(Ktranamnhuan(x.nam)==1 )
   cout<<"\nNam nhuan";
   else 
-  cout<<"\nKhong phai nam nhuan ";
+  cout<<"\nKhong phai nam nhuan "; // khong nhuan
   
-  cout<<"\nSo thu tu trong nam:"<<TimSTT(x);
+  cout<<"\nSo thu tu trong nam:"<<TimSTT(x); // 61
  	
- 	cout<<"\nNhap so nguyen a:";
+ 	cout<<"\nNhap so nguyen a:"; // a=20
  	cin>>a;
  	cout<<"\nCong ngay thang: \n";
- 	Inngay(CongNgaythang(n,a));
- 		cout<<"\nNhap so nguyen b:";
+ 	Inngay(CongNgaythang(x,a)); // 22/3/2018
+ 	
+ 	cout<<"\nNhap so nguyen b:"; //b=20
  	cin>>b;
  	cout<<"\nTru ngay thang: \n";
- 	Inngay(TruNgaythang(n,b));
+ 	Inngay(TruNgaythang(x,a)); //10/2/2018
 
  
   getch();
